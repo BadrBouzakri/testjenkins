@@ -106,8 +106,13 @@ stage('Deploiement en staging'){
             steps {
             // Create an Approval Button with a timeout of 15minutes.
             // this require a manuel validation in order to deploy on production environment
-                     timeout(time: 15, unit: "MINUTES") {
-                     input message: 'Do you want to deploy in production ?', ok: 'Yes'
+                      def userInput = input(
+                        id: 'userInput', message: 'Do you want to deploy in production?', ok: 'Yes',
+                        parameters: [
+                            choice(name: 'Approval', choices: ['Yes', 'No'], description: 'Select Yes to proceed
+                        ]
+                    )
+
                     }
 
                 script {
